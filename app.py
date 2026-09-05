@@ -1422,108 +1422,130 @@ with scenario_tab:
 # ---------------------------------------------------------
 
 with methodology_tab:
-    st.header(
-        "Calculation method"
+    st.header("Calculation method")
+
+    st.subheader("Representative category profile")
+
+    st.markdown(
+        """
+For each data-centre type, voltage level and half-hourly
+timestamp, the representative utilisation is calculated as:
+"""
+    )
+
+    st.latex(
+        r"""
+        \bar{U}_{c,t}
+        =
+        \frac{1}{n_{c,t}}
+        \sum_{i=1}^{n_{c,t}} U_{i,t}
+        """
     )
 
     st.markdown(
         r"""
-### Representative category profile
-
-For each data-centre type, voltage level and half-hourly
-timestamp, the representative utilisation is calculated as:
-
-\[
-\bar{U}_{c,t}
-=
-\frac{1}{n_{c,t}}
-\sum_{i=1}^{n_{c,t}} U_{i,t}
-\]
-
 where:
 
-- \(\bar{U}_{c,t}\) is mean utilisation for category \(c\)
-  at time \(t\);
-- \(U_{i,t}\) is the utilisation ratio of anonymised
-  data centre \(i\);
-- \(n_{c,t}\) is the number of available profiles in the
+- $\bar{U}_{c,t}$ is the mean utilisation for category $c$
+  at time $t$;
+- $U_{i,t}$ is the utilisation ratio of anonymised
+  data centre $i$;
+- $n_{c,t}$ is the number of available profiles in the
   category at that timestamp.
+"""
+    )
 
-### Scenario energy
+    st.subheader("Scenario energy")
 
-\[
-Energy_t
-=
-\bar{U}_{c,t}
-\times
-Capacity
-\times
-0.5
-\]
+    st.latex(
+        r"""
+        \mathrm{Energy}_{t}
+        =
+        \bar{U}_{c,t}
+        \times
+        \mathrm{Capacity}
+        \times
+        0.5
+        """
+    )
 
-### Estimated emissions
+    st.markdown(
+        """
+The value 0.5 represents the duration of one half-hourly
+interval. When capacity is expressed in kW, the resulting
+energy is expressed in kWh.
+"""
+    )
 
-\[
-Emissions_t
-=
-\frac{
-Energy_t
-\times
-CarbonIntensity_t
-}{1000}
-\]
+    st.subheader("Estimated emissions")
 
-The division by 1,000 converts grams of CO₂ equivalent
-to kilograms of CO₂ equivalent.
+    st.latex(
+        r"""
+        \mathrm{Emissions}_{t}
+        =
+        \frac{
+        \mathrm{Energy}_{t}
+        \times
+        \mathrm{CarbonIntensity}_{t}
+        }{1000}
+        """
+    )
 
-### Carbon-aware comparison
+    st.markdown(
+        """
+Carbon intensity is measured in gCO₂e/kWh. Dividing the
+result by 1,000 converts grams of CO₂ equivalent into
+kilograms of CO₂ equivalent.
+"""
+    )
 
+    st.subheader("Carbon-aware comparison")
+
+    st.markdown(
+        """
 The flexible share of the representative workload is tested
-at every valid half-hourly start inside the selected shifting
-window. Workload energy and duration remain unchanged. The
-system recommends the valid alternative with the lowest
+at every valid half-hourly start time within the selected
+shifting window. Workload energy, workload duration and
+assumed capacity remain unchanged. The dashboard recommends
+the valid alternative start time that produces the lowest
 estimated emissions.
 """
     )
 
-    st.header(
-        "Interpretation and limitations"
-    )
+    st.header("Interpretation and limitations")
 
     st.warning(
-        "The results are representative scenarios, not audited "
-        "emissions for a specific facility."
+        "The results represent modelled scenarios and should "
+        "not be interpreted as audited emissions for a specific facility."
     )
 
     st.markdown(
         """
-- UKPN data-centre identities and actual maximum import
-  capacities are not published.
-- Equal-weight averaging prevents larger unknown-capacity
-  centres from dominating the category profile.
-- The selected type and voltage level provide a comparison
-  category rather than a guaranteed forecast for a new site.
-- A new data centre may have different hardware, cooling,
-  operating hours and workload flexibility.
+- UKPN does not publish the identities or actual maximum
+  import capacities of the data centres.
+- Equal-weight averaging prevents centres with larger but
+  unknown capacities from dominating the representative profile.
+- The selected data-centre type and voltage level define a
+  comparison category rather than a guaranteed forecast for a new site.
+- A new data centre may have different hardware, cooling systems,
+  operating hours and levels of workload flexibility.
 - Utilisation ratios above 100% are retained as a documented
-  source-data limitation.
+  limitation of the source data.
 - Missing UKPN and NESO intervals are not interpolated.
 - The model excludes embodied emissions, water consumption,
-  cost optimisation and geographical workload migration.
-- The model does not automatically control a live data-centre
-  workload.
+  financial cost optimisation and geographical workload migration.
+- The dashboard does not automatically control or reschedule
+  a live data-centre workload.
 """
     )
 
-    st.header(
-        "Data sources"
-    )
+    st.header("Data sources")
 
     st.markdown(
         """
-- **UK Power Networks:** anonymised half-hourly
-  Data Centre Demand Profiles.
-- **National Energy System Operator:** national
-  half-hourly carbon-intensity forecast and actual values.
+- **UK Power Networks:** anonymised half-hourly Data Centre
+  Demand Profiles.
+- **National Energy System Operator:** national half-hourly
+  forecast and actual carbon-intensity data.
 """
     )
