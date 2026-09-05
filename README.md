@@ -36,23 +36,7 @@ To design, develop and evaluate a web-based dashboard that integrates UK Power N
 
 8. To evaluate the dashboard through data-validation checks, functional testing and scenario-based analysis.
 
-## Dashboard Screenshots
 
-### Dashboard Overview
-
-![Carbon Curve Dashboard overview](screenshots/dashboard-overview.png)
-
-### Data Exploration
-
-![Data exploration charts and metrics](screenshots/data-exploration.png)
-
-### Carbon-Aware Workload Comparison
-
-![Baseline and recommended workload comparison](screenshots/carbon-aware-comparison.png)
-
-### Estimated Emissions and Potential Savings
-
-![Estimated emissions and potential savings](screenshots/emissions-results.png)
 
 ## Data Sources
 
